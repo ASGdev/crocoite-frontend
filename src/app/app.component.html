@@ -1,20 +1,59 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="uk-section-primary">
+  <div class="uk-container">
+      <h1>CrocoiteUI</h1>
+      <form class="uk-grid-small" uk-grid >
+          <div class="uk-width-1-2@s">
+              <input class="uk-input" type="url" [(ngModel)]="newTask" name="newTask" required/>
+          </div>
+          <div class="uk-width-1-4@s">
+              <button class="uk-button uk-button-default" (click)="addTask()">Add page</button>
+          </div>
+      </form>
+
+      <div>
+        <button (click)="toogleStatus('start')">Start server</button>
+        <button (click)="toogleStatus('kill')">Kill server</button>
+        <button (click)="toogleStatus('clear')">Clear server</button>
+        <p>Server status : {{serverStatus}}</p>
+        <p>Last response : {{lastResp}}</p>
+        <p><button (click)="getTasks()">Get all tasks</button></p>
+      </div>
+  </div>
+  
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
+<div class="uk-container">
+  <table class="uk-table uk-table-striped uk-table-small">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>URL</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let task of taskList">
+            <td>{{task.id}}</td>
+            <td>{{task.url}}</td>
+            <td>
+              <span *ngIf="task.status == -1" class="uk-label-danger">Error</span>
+              <span *ngIf="task.status == 0" class="uk-label">Pending</span>
+              <span *ngIf="task.status == 1" class="uk-label-success">Done</span>
+              <a href="http://35.180.252.61:3000/results/{{task.file}}" *ngIf="task.status == 2">Download</a>
+              <button (click)="showOutput(task.id)" uk-toggle="target: #output-placeholder">Show output</button>
+            </td>
+        </tr>
+    </tbody>
+    
+  </table>
+</div>
+
+<div id="output-placeholder" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Yo</h2>
+        <button class="uk-modal-close" type="button"></button>
+    </div>
+</div>
+
 
