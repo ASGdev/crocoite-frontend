@@ -27,7 +27,10 @@
             
     <ul class="uk-switcher uk-margin">
         <li>
-                <p><button class="uk-button uk-button-primary" (click)="getTasks()">Refresh</button></p>
+                <p>
+                    <button class="uk-button uk-button-primary" (click)="getTasks()">Refresh</button>
+                    <button class="uk-button uk-button-default">Clear</button>
+                </p>
                 <table class="uk-table uk-table-striped uk-table-small uk-overflow-auto">
                         <thead>
                           <tr>
@@ -37,7 +40,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let task of taskList" class="uk-visible-toggle">
+                            <tr *ngFor="let task of tasksList" class="uk-visible-toggle">
                                 <td>{{task.url}}</td>
                                 <td>
                                     <span *ngIf="task.status == -1" class="uk-label uk-label-danger">Error</span>
@@ -54,12 +57,65 @@
                                     </div>
                                 </td>
                             </tr>
-                        </tbody>
-                        
+                        </tbody>   
                       </table>
         </li>
-               
         <li>
+            <p>
+                <button class="uk-button uk-button-primary" (click)="getTodos()">Refresh</button>
+                <button class="uk-button uk-button-default">Place all in queue</button>
+            </p>
+                <table class="uk-table uk-table-striped uk-table-small uk-overflow-auto">
+                        <thead>
+                          <tr>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let task of todoList" class="uk-visible-toggle">
+                                <td>{{task.url}}</td>
+                                <td>
+                                    <span *ngIf="task.status == -1" class="uk-label uk-label-danger">Error</span>
+                                    <span *ngIf="task.status == 0" class="uk-label">Pending</span>
+                                    <span *ngIf="task.status == 1" class="uk-label uk-label-success">Done</span>
+                                    <a href="http://35.180.252.61:3000/results/{{task.file}}" *ngIf="task.status == 2">Download</a>
+                                    <!--<button (click)="showOutput(task.id)" uk-toggle="target: #output-placeholder">Show output</button>-->
+                                </td>
+                                <td>
+                                    <div class="uk-invisible-hover uk-display-inline">
+                                        <button class="uk-button uk-button-primary">Pause</button>
+                                        <button class="uk-button uk-button-danger">Remove</button>
+                                        <button *ngIf="task.status == -1" class="uk-button uk-button-primary">Replace in queue</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>   
+                      </table>
+        </li>    
+        <li>
+            <p><button class="uk-button uk-button-primary" (click)="getDoneTasks()">Refresh</button></p>
+            <table class="uk-table uk-table-striped uk-table-small uk-overflow-auto">
+                        <thead>
+                          <tr>
+                            <th>URL</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let task of doneTasksList" class="uk-visible-toggle">
+                                <td>{{task.url}}</td>
+                                <td>
+                                    <div class="uk-invisible-hover uk-display-inline">
+                                            <button class="uk-button uk-button-default">Download archive</button>
+                                        <button class="uk-button uk-button-danger">Remove from DB</button>
+                                        <button class="uk-button uk-button-primary">Replace in queue</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>   
+            </table>
 
         </li>
     </ul>

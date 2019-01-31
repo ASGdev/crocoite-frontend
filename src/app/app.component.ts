@@ -15,9 +15,11 @@ export class AppComponent {
 
   newTask = "";
 
-  taskList = [];
+  tasksList = [];
 
   taskQueue = [];
+
+  doneTasksList = [];
 
   lastOutput = {};
 
@@ -37,7 +39,7 @@ export class AppComponent {
 
   getTasks(){
     this.backend.getTasks()
-    .subscribe((resp) => this.taskList = resp);
+    .subscribe((resp) => this.tasksList = resp);
   }
 
   toogleStatus(cmd){
@@ -49,5 +51,10 @@ export class AppComponent {
     console.log("showing output of task with id " + id);
     this.backend.getOuput(id)
     .subscribe((resp) => this.lastOutput = resp);
+  }
+
+  getDoneTasks(){
+    this.backend.getDoneTasks()
+    .subscribe((resp) => this.doneTasksList = resp);
   }
 }
