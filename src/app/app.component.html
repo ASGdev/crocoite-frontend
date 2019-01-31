@@ -1,52 +1,70 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="uk-section-primary">
   <div class="uk-container">
-      <h1>CrocoiteUI</h1>
+    <h1 class="uk-display-inline uk-margin-right">CrocoiteUI</h1><button class="uk-button uk-button-link" (click)="addTask()">about</button>
       <form class="uk-grid-small" uk-grid >
           <div class="uk-width-1-2@s">
               <input class="uk-input" type="url" [(ngModel)]="newTask" name="newTask" required/>
           </div>
-          <div class="uk-width-1-4@s">
-              <button class="uk-button uk-button-default" (click)="addTask()">Add page</button>
+          <div class="uk-width-1-2@s">
+              <button class="uk-button uk-button-secondary uk-margin-right" (click)="addTask()">Add page to queue</button>
+              <button class="uk-button uk-button-default" (click)="addTask()">Add page to todo list</button>
           </div>
       </form>
-
       <div>
-        <button (click)="toogleStatus('start')">Start server</button>
-        <button (click)="toogleStatus('kill')">Kill server</button>
-        <button (click)="toogleStatus('clear')">Clear server</button>
-        <p>Server status : {{serverStatus}}</p>
-        <p>Last response : {{lastResp}}</p>
-        <p><button (click)="getTasks()">Get all tasks</button></p>
+        <p>Server status : {{serverStatus}} <button class="uk-button uk-button-text" uk-toggle="target: #server-managmt-placeholder">Manage</button></p>
       </div>
   </div>
   
 </div>
 
-<div class="uk-container">
-  <table class="uk-table uk-table-striped uk-table-small">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>URL</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let task of taskList">
-            <td>{{task.id}}</td>
-            <td>{{task.url}}</td>
-            <td>
-              <span *ngIf="task.status == -1" class="uk-label-danger">Error</span>
-              <span *ngIf="task.status == 0" class="uk-label">Pending</span>
-              <span *ngIf="task.status == 1" class="uk-label-success">Done</span>
-              <a href="http://35.180.252.61:3000/results/{{task.file}}" *ngIf="task.status == 2">Download</a>
-              <button (click)="showOutput(task.id)" uk-toggle="target: #output-placeholder">Show output</button>
-            </td>
-        </tr>
-    </tbody>
-    
-  </table>
+<div class="uk-container uk-padding-small"  uk-height-viewport="expand: true">
+    <ul uk-tab>
+        <li><a href="#">Working queue</a></li>
+        <li><a href="#">Todo list</a></li>
+        <li><a href="#">Done list</a></li>
+    </ul>
+            
+    <ul class="uk-switcher uk-margin">
+        <li>
+                <p><button class="uk-button uk-button-primary" (click)="getTasks()">Refresh</button></p>
+                <table class="uk-table uk-table-striped uk-table-small uk-overflow-auto">
+                        <thead>
+                          <tr>
+                            <th>URL</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let task of taskList" class="uk-visible-toggle">
+                                <td>{{task.url}}</td>
+                                <td>
+                                    <span *ngIf="task.status == -1" class="uk-label uk-label-danger">Error</span>
+                                    <span *ngIf="task.status == 0" class="uk-label">Pending</span>
+                                    <span *ngIf="task.status == 1" class="uk-label uk-label-success">Done</span>
+                                    <a href="http://35.180.252.61:3000/results/{{task.file}}" *ngIf="task.status == 2">Download</a>
+                                    <!--<button (click)="showOutput(task.id)" uk-toggle="target: #output-placeholder">Show output</button>-->
+                                </td>
+                                <td>
+                                    <div class="uk-invisible-hover uk-display-inline">
+                                        <button class="uk-button uk-button-primary">Pause</button>
+                                        <button class="uk-button uk-button-danger">Remove</button>
+                                        <button *ngIf="task.status == -1" class="uk-button uk-button-primary">Replace in queue</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                      </table>
+        </li>
+               
+        <li>
+
+        </li>
+    </ul>
+
+  
 </div>
 
 <div id="output-placeholder" uk-modal>
@@ -57,3 +75,28 @@
 </div>
 
 
+<div id="server-managmt-placeholder" uk-modal>
+    <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">Server management</h2>
+        <p class="uk-text-center">
+            <button class="uk-button uk-button-primary uk-modal-close uk-margin-right" (click)="toogleStatus('start')" type="button">Start server</button>
+            <button class="uk-button uk-button-default uk-modal-close uk-margin-right" (click)="toogleStatus('clear')" type="button">Clear server</button>
+            <button class="uk-button uk-button-danger uk-modal-close" (click)="toogleStatus('kill')" type="button">Kill server</button>
+        </p>
+        <p class="uk-text-right">
+            <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+        </p>
+    </div>
+</div>
+
+<div id="about-placeholder" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">About</h2>
+            <p class="uk-text-center">
+
+            </p>
+            <p class="uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+            </p>
+        </div>
+    </div>

@@ -19,7 +19,7 @@ export class AppComponent {
 
   taskQueue = [];
 
-  lastOuput = {};
+  lastOutput = {};
 
   constructor(private backend: BackendConnectorService){
   
@@ -48,6 +48,6 @@ export class AppComponent {
   showOutput(id){
     console.log("showing output of task with id " + id);
     this.backend.getOuput(id)
-    .subscribe((resp) => this.lastOuput = resp);
+    .subscribe((resp) => this.lastOutput = resp);
   }
 }
